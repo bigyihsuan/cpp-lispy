@@ -3,67 +3,66 @@
 
 #pragma once
 
+
 #include "antlr4-runtime.h"
 
-class LispyParser : public antlr4::Parser
-{
+
+
+
+class  LispyParser : public antlr4::Parser {
 public:
-  enum
-  {
-    T__0 = 1,
-    T__1 = 2,
-    NUMBER = 3,
-    OPERATOR = 4,
-    WS = 5
+  enum {
+    T__0 = 1, T__1 = 2, NUMBER = 3, OPERATOR = 4, WS = 5
   };
 
-  enum
-  {
-    RuleLispy = 0,
-    RuleExpr = 1
+  enum {
+    RuleLispy = 0, RuleExpr = 1
   };
 
   explicit LispyParser(antlr4::TokenStream *input);
   ~LispyParser();
 
   virtual std::string getGrammarFileName() const override;
-  virtual const antlr4::atn::ATN &getATN() const override { return _atn; };
-  virtual const std::vector<std::string> &getTokenNames() const override { return _tokenNames; }; // deprecated: use vocabulary instead.
-  virtual const std::vector<std::string> &getRuleNames() const override;
-  virtual antlr4::dfa::Vocabulary &getVocabulary() const override;
+  virtual const antlr4::atn::ATN& getATN() const override { return _atn; };
+  virtual const std::vector<std::string>& getTokenNames() const override { return _tokenNames; }; // deprecated: use vocabulary instead.
+  virtual const std::vector<std::string>& getRuleNames() const override;
+  virtual antlr4::dfa::Vocabulary& getVocabulary() const override;
+
 
   class LispyContext;
-  class ExprContext;
+  class ExprContext; 
 
-  class LispyContext : public antlr4::ParserRuleContext
-  {
+  class  LispyContext : public antlr4::ParserRuleContext {
   public:
     LispyContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     antlr4::tree::TerminalNode *OPERATOR();
     std::vector<ExprContext *> expr();
-    ExprContext *expr(size_t i);
+    ExprContext* expr(size_t i);
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+   
   };
 
-  LispyContext *lispy();
+  LispyContext* lispy();
 
-  class ExprContext : public antlr4::ParserRuleContext
-  {
+  class  ExprContext : public antlr4::ParserRuleContext {
   public:
     ExprContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     antlr4::tree::TerminalNode *NUMBER();
     antlr4::tree::TerminalNode *OPERATOR();
-    ExprContext *expr();
+    std::vector<ExprContext *> expr();
+    ExprContext* expr(size_t i);
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+   
   };
 
-  ExprContext *expr();
+  ExprContext* expr();
+
 
 private:
   static std::vector<antlr4::dfa::DFA> _decisionToDFA;
@@ -77,9 +76,10 @@ private:
   static antlr4::atn::ATN _atn;
   static std::vector<uint16_t> _serializedATN;
 
-  struct Initializer
-  {
+
+  struct Initializer {
     Initializer();
   };
   static Initializer _init;
 };
+

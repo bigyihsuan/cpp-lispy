@@ -109,27 +109,19 @@ public class LispyParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(5);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			if (_la==OPERATOR) {
-				{
-				setState(4);
-				match(OPERATOR);
-				}
-			}
-
-			setState(8); 
+			setState(4);
+			match(OPERATOR);
+			setState(6); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(7);
+				setState(5);
 				expr();
 				}
 				}
-				setState(10); 
+				setState(8); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			} while ( _la==T__0 || _la==NUMBER );
@@ -149,8 +141,11 @@ public class LispyParser extends Parser {
 	public static class ExprContext extends ParserRuleContext {
 		public TerminalNode NUMBER() { return getToken(LispyParser.NUMBER, 0); }
 		public TerminalNode OPERATOR() { return getToken(LispyParser.OPERATOR, 0); }
-		public ExprContext expr() {
-			return getRuleContext(ExprContext.class,0);
+		public List<ExprContext> expr() {
+			return getRuleContexts(ExprContext.class);
+		}
+		public ExprContext expr(int i) {
+			return getRuleContext(ExprContext.class,i);
 		}
 		public ExprContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -161,27 +156,40 @@ public class LispyParser extends Parser {
 	public final ExprContext expr() throws RecognitionException {
 		ExprContext _localctx = new ExprContext(_ctx, getState());
 		enterRule(_localctx, 2, RULE_expr);
+		int _la;
 		try {
-			setState(18);
+			setState(20);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case NUMBER:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(12);
+				setState(10);
 				match(NUMBER);
 				}
 				break;
 			case T__0:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(13);
+				setState(11);
 				match(T__0);
-				setState(14);
+				setState(12);
 				match(OPERATOR);
-				setState(15);
-				expr();
-				setState(16);
+				setState(14); 
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				do {
+					{
+					{
+					setState(13);
+					expr();
+					}
+					}
+					setState(16); 
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+				} while ( _la==T__0 || _la==NUMBER );
+				setState(18);
 				match(T__1);
 				}
 				break;
@@ -201,13 +209,14 @@ public class LispyParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\7\27\4\2\t\2\4\3"+
-		"\t\3\3\2\5\2\b\n\2\3\2\6\2\13\n\2\r\2\16\2\f\3\3\3\3\3\3\3\3\3\3\3\3\5"+
-		"\3\25\n\3\3\3\2\2\4\2\4\2\2\2\27\2\7\3\2\2\2\4\24\3\2\2\2\6\b\7\6\2\2"+
-		"\7\6\3\2\2\2\7\b\3\2\2\2\b\n\3\2\2\2\t\13\5\4\3\2\n\t\3\2\2\2\13\f\3\2"+
-		"\2\2\f\n\3\2\2\2\f\r\3\2\2\2\r\3\3\2\2\2\16\25\7\5\2\2\17\20\7\3\2\2\20"+
-		"\21\7\6\2\2\21\22\5\4\3\2\22\23\7\4\2\2\23\25\3\2\2\2\24\16\3\2\2\2\24"+
-		"\17\3\2\2\2\25\5\3\2\2\2\5\7\f\24";
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\7\31\4\2\t\2\4\3"+
+		"\t\3\3\2\3\2\6\2\t\n\2\r\2\16\2\n\3\3\3\3\3\3\3\3\6\3\21\n\3\r\3\16\3"+
+		"\22\3\3\3\3\5\3\27\n\3\3\3\2\2\4\2\4\2\2\2\31\2\6\3\2\2\2\4\26\3\2\2\2"+
+		"\6\b\7\6\2\2\7\t\5\4\3\2\b\7\3\2\2\2\t\n\3\2\2\2\n\b\3\2\2\2\n\13\3\2"+
+		"\2\2\13\3\3\2\2\2\f\27\7\5\2\2\r\16\7\3\2\2\16\20\7\6\2\2\17\21\5\4\3"+
+		"\2\20\17\3\2\2\2\21\22\3\2\2\2\22\20\3\2\2\2\22\23\3\2\2\2\23\24\3\2\2"+
+		"\2\24\25\7\4\2\2\25\27\3\2\2\2\26\f\3\2\2\2\26\r\3\2\2\2\27\5\3\2\2\2"+
+		"\5\n\22\26";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
