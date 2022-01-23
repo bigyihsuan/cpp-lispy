@@ -3,8 +3,11 @@
 #include <editline/history.h>
 #include <editline/readline.h>
 
+#include <antlr4-runtime/antlr4-runtime.h>
+
 int main()
 {
+
     std::cout << "cpp-lispy v0.0.0\n"
               << "Press ctrl-c to exit\n";
 
