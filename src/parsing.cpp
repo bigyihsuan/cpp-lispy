@@ -19,15 +19,15 @@ public:
 
     antlrcpp::Any visitLispy(LispyParser::LispyContext *ctx) override
     {
-        std::cout << "visitLispy " << ctx->getText() << std::endl;
+        // std::cout << "visitLispy " << ctx->getText() << std::endl;
         auto op = ctx->lispyOp->getStart();
         int left = visit(ctx->expr(0));
-        std::cout << "left " << left << std::endl;
+        // std::cout << "left " << left << std::endl;
 
         for (int i = 1; i < ctx->expr().size(); i++)
         {
             int right = visit(ctx->expr(i));
-            std::cout << "left: " << left << " right: " << right << std::endl;
+            // std::cout << "left: " << left << " right: " << right << std::endl;
             left = eval_op(op, left, right);
         }
         return left;
@@ -35,15 +35,15 @@ public:
 
     antlrcpp::Any visitParenExpr(LispyParser::ParenExprContext *ctx) override
     {
-        std::cout << "visitParenExpr " << ctx->getText() << std::endl;
+        // std::cout << "visitParenExpr " << ctx->getText() << std::endl;
         auto op = ctx->exprOp->getStart();
         int left = visit(ctx->expr(0));
-        std::cout << "    left " << left << std::endl;
+        // std::cout << "    left " << left << std::endl;
 
         for (int i = 1; i < ctx->expr().size(); i++)
         {
             int right = visit(ctx->expr(i));
-            std::cout << "    left: " << left << " right: " << right << std::endl;
+            // std::cout << "    left: " << left << " right: " << right << std::endl;
             left = eval_op(op, left, right);
         }
         return left;
@@ -51,7 +51,7 @@ public:
 
     antlrcpp::Any visitNumberExpr(LispyParser::NumberExprContext *ctx) override
     {
-        std::cout << "visitNumberExpr " << ctx->NUMBER()->getText() << std::endl;
+        // std::cout << "visitNumberExpr " << ctx->NUMBER()->getText() << std::endl;
         return std::stoi(ctx->NUMBER()->getText());
     }
 
@@ -60,8 +60,8 @@ public:
     int eval_op(antlr4::Token *op, int x, int y)
     {
         auto type = op->getType();
-        std::cout << x << " "
-                  << op->getText() << " " << y << std::endl;
+        // std::cout << x << " "
+        //   << op->getText() << " " << y << std::endl;
         if (type == LispyParser::PLUS)
         {
             return x + y;
@@ -110,8 +110,8 @@ int main()
         auto parser = new LispyParser(tokens);
 
         antlr4::tree::ParseTree *tree = parser->lispy();
-        std::cout << tree->toStringTree(parser, true) << std::endl
-                  << std::endl;
+        // std::cout << tree->toStringTree(parser, true) << std::endl
+        //   << std::endl;
 
         auto visitor = new EvalVisitor();
         std::cout << "visited value = " << (int)visitor->visit(tree) << std::endl;
