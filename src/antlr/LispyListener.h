@@ -17,8 +17,14 @@ public:
   virtual void enterLispy(LispyParser::LispyContext *ctx) = 0;
   virtual void exitLispy(LispyParser::LispyContext *ctx) = 0;
 
-  virtual void enterExpr(LispyParser::ExprContext *ctx) = 0;
-  virtual void exitExpr(LispyParser::ExprContext *ctx) = 0;
+  virtual void enterParenExpr(LispyParser::ParenExprContext *ctx) = 0;
+  virtual void exitParenExpr(LispyParser::ParenExprContext *ctx) = 0;
+
+  virtual void enterNumberExpr(LispyParser::NumberExprContext *ctx) = 0;
+  virtual void exitNumberExpr(LispyParser::NumberExprContext *ctx) = 0;
+
+  virtual void enterOp(LispyParser::OpContext *ctx) = 0;
+  virtual void exitOp(LispyParser::OpContext *ctx) = 0;
 
 
 };

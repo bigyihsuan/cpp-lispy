@@ -19,8 +19,14 @@ public:
   virtual void enterLispy(LispyParser::LispyContext * /*ctx*/) override { }
   virtual void exitLispy(LispyParser::LispyContext * /*ctx*/) override { }
 
-  virtual void enterExpr(LispyParser::ExprContext * /*ctx*/) override { }
-  virtual void exitExpr(LispyParser::ExprContext * /*ctx*/) override { }
+  virtual void enterParenExpr(LispyParser::ParenExprContext * /*ctx*/) override { }
+  virtual void exitParenExpr(LispyParser::ParenExprContext * /*ctx*/) override { }
+
+  virtual void enterNumberExpr(LispyParser::NumberExprContext * /*ctx*/) override { }
+  virtual void exitNumberExpr(LispyParser::NumberExprContext * /*ctx*/) override { }
+
+  virtual void enterOp(LispyParser::OpContext * /*ctx*/) override { }
+  virtual void exitOp(LispyParser::OpContext * /*ctx*/) override { }
 
 
   virtual void enterEveryRule(antlr4::ParserRuleContext * /*ctx*/) override { }

@@ -1,4 +1,4 @@
-// Generated from /mnt/d/Programming/Github Repos/cpp-lispy/src/Lispy.g4 by ANTLR 4.8
+// Generated from /mnt/d/Programming/GithubRepos/cpp-lispy/src/Lispy.g4 by ANTLR 4.8
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
@@ -16,25 +16,26 @@ public class LispyParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__0=1, T__1=2, NUMBER=3, OPERATOR=4, WS=5;
+		LPAREN=1, RPAREN=2, NUMBER=3, PLUS=4, MINUS=5, STAR=6, SLASH=7, WS=8;
 	public static final int
-		RULE_lispy = 0, RULE_expr = 1;
+		RULE_lispy = 0, RULE_expr = 1, RULE_op = 2;
 	private static String[] makeRuleNames() {
 		return new String[] {
-			"lispy", "expr"
+			"lispy", "expr", "op"
 		};
 	}
 	public static final String[] ruleNames = makeRuleNames();
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, "'('", "')'"
+			null, "'('", "')'", null, "'+'", "'-'", "'*'", "'/'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
-			null, null, null, "NUMBER", "OPERATOR", "WS"
+			null, "LPAREN", "RPAREN", "NUMBER", "PLUS", "MINUS", "STAR", "SLASH", 
+			"WS"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -89,7 +90,11 @@ public class LispyParser extends Parser {
 	}
 
 	public static class LispyContext extends ParserRuleContext {
-		public TerminalNode OPERATOR() { return getToken(LispyParser.OPERATOR, 0); }
+		public OpContext lispyOp;
+		public ExprContext lispyExpr;
+		public OpContext op() {
+			return getRuleContext(OpContext.class,0);
+		}
 		public List<ExprContext> expr() {
 			return getRuleContexts(ExprContext.class);
 		}
@@ -109,22 +114,22 @@ public class LispyParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(4);
-			match(OPERATOR);
-			setState(6); 
+			setState(6);
+			((LispyContext)_localctx).lispyOp = op();
+			setState(8); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(5);
-				expr();
+				setState(7);
+				((LispyContext)_localctx).lispyExpr = expr();
 				}
 				}
-				setState(8); 
+				setState(10); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			} while ( _la==T__0 || _la==NUMBER );
+			} while ( _la==LPAREN || _la==NUMBER );
 			}
 		}
 		catch (RecognitionException re) {
@@ -139,18 +144,36 @@ public class LispyParser extends Parser {
 	}
 
 	public static class ExprContext extends ParserRuleContext {
+		public ExprContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_expr; }
+	 
+		public ExprContext() { }
+		public void copyFrom(ExprContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class NumberExprContext extends ExprContext {
 		public TerminalNode NUMBER() { return getToken(LispyParser.NUMBER, 0); }
-		public TerminalNode OPERATOR() { return getToken(LispyParser.OPERATOR, 0); }
+		public NumberExprContext(ExprContext ctx) { copyFrom(ctx); }
+	}
+	public static class ParenExprContext extends ExprContext {
+		public OpContext exprOp;
+		public ExprContext exprLeft;
+		public ExprContext exprRight;
+		public TerminalNode LPAREN() { return getToken(LispyParser.LPAREN, 0); }
+		public TerminalNode RPAREN() { return getToken(LispyParser.RPAREN, 0); }
+		public OpContext op() {
+			return getRuleContext(OpContext.class,0);
+		}
 		public List<ExprContext> expr() {
 			return getRuleContexts(ExprContext.class);
 		}
 		public ExprContext expr(int i) {
 			return getRuleContext(ExprContext.class,i);
 		}
-		public ExprContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_expr; }
+		public ParenExprContext(ExprContext ctx) { copyFrom(ctx); }
 	}
 
 	public final ExprContext expr() throws RecognitionException {
@@ -158,39 +181,43 @@ public class LispyParser extends Parser {
 		enterRule(_localctx, 2, RULE_expr);
 		int _la;
 		try {
-			setState(20);
+			setState(23);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
-			case NUMBER:
+			case LPAREN:
+				_localctx = new ParenExprContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(10);
-				match(NUMBER);
-				}
-				break;
-			case T__0:
-				enterOuterAlt(_localctx, 2);
-				{
-				setState(11);
-				match(T__0);
 				setState(12);
-				match(OPERATOR);
-				setState(14); 
+				match(LPAREN);
+				setState(13);
+				((ParenExprContext)_localctx).exprOp = op();
+				setState(14);
+				((ParenExprContext)_localctx).exprLeft = expr();
+				setState(16); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				do {
 					{
 					{
-					setState(13);
-					expr();
+					setState(15);
+					((ParenExprContext)_localctx).exprRight = expr();
 					}
 					}
-					setState(16); 
+					setState(18); 
 					_errHandler.sync(this);
 					_la = _input.LA(1);
-				} while ( _la==T__0 || _la==NUMBER );
-				setState(18);
-				match(T__1);
+				} while ( _la==LPAREN || _la==NUMBER );
+				setState(20);
+				match(RPAREN);
+				}
+				break;
+			case NUMBER:
+				_localctx = new NumberExprContext(_localctx);
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(22);
+				match(NUMBER);
 				}
 				break;
 			default:
@@ -208,15 +235,57 @@ public class LispyParser extends Parser {
 		return _localctx;
 	}
 
+	public static class OpContext extends ParserRuleContext {
+		public TerminalNode PLUS() { return getToken(LispyParser.PLUS, 0); }
+		public TerminalNode MINUS() { return getToken(LispyParser.MINUS, 0); }
+		public TerminalNode STAR() { return getToken(LispyParser.STAR, 0); }
+		public TerminalNode SLASH() { return getToken(LispyParser.SLASH, 0); }
+		public OpContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_op; }
+	}
+
+	public final OpContext op() throws RecognitionException {
+		OpContext _localctx = new OpContext(_ctx, getState());
+		enterRule(_localctx, 4, RULE_op);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(25);
+			_la = _input.LA(1);
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << PLUS) | (1L << MINUS) | (1L << STAR) | (1L << SLASH))) != 0)) ) {
+			_errHandler.recoverInline(this);
+			}
+			else {
+				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+				_errHandler.reportMatch(this);
+				consume();
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\7\31\4\2\t\2\4\3"+
-		"\t\3\3\2\3\2\6\2\t\n\2\r\2\16\2\n\3\3\3\3\3\3\3\3\6\3\21\n\3\r\3\16\3"+
-		"\22\3\3\3\3\5\3\27\n\3\3\3\2\2\4\2\4\2\2\2\31\2\6\3\2\2\2\4\26\3\2\2\2"+
-		"\6\b\7\6\2\2\7\t\5\4\3\2\b\7\3\2\2\2\t\n\3\2\2\2\n\b\3\2\2\2\n\13\3\2"+
-		"\2\2\13\3\3\2\2\2\f\27\7\5\2\2\r\16\7\3\2\2\16\20\7\6\2\2\17\21\5\4\3"+
-		"\2\20\17\3\2\2\2\21\22\3\2\2\2\22\20\3\2\2\2\22\23\3\2\2\2\23\24\3\2\2"+
-		"\2\24\25\7\4\2\2\25\27\3\2\2\2\26\f\3\2\2\2\26\r\3\2\2\2\27\5\3\2\2\2"+
-		"\5\n\22\26";
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\n\36\4\2\t\2\4\3"+
+		"\t\3\4\4\t\4\3\2\3\2\6\2\13\n\2\r\2\16\2\f\3\3\3\3\3\3\3\3\6\3\23\n\3"+
+		"\r\3\16\3\24\3\3\3\3\3\3\5\3\32\n\3\3\4\3\4\3\4\2\2\5\2\4\6\2\3\3\2\6"+
+		"\t\2\35\2\b\3\2\2\2\4\31\3\2\2\2\6\33\3\2\2\2\b\n\5\6\4\2\t\13\5\4\3\2"+
+		"\n\t\3\2\2\2\13\f\3\2\2\2\f\n\3\2\2\2\f\r\3\2\2\2\r\3\3\2\2\2\16\17\7"+
+		"\3\2\2\17\20\5\6\4\2\20\22\5\4\3\2\21\23\5\4\3\2\22\21\3\2\2\2\23\24\3"+
+		"\2\2\2\24\22\3\2\2\2\24\25\3\2\2\2\25\26\3\2\2\2\26\27\7\4\2\2\27\32\3"+
+		"\2\2\2\30\32\7\5\2\2\31\16\3\2\2\2\31\30\3\2\2\2\32\5\3\2\2\2\33\34\t"+
+		"\2\2\2\34\7\3\2\2\2\5\f\24\31";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

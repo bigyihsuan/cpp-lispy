@@ -1,9 +1,18 @@
 grammar Lispy;
 
-lispy: OPERATOR expr+;
-expr: NUMBER | '(' OPERATOR expr+ ')';
+lispy: lispyOp = op lispyExpr = expr+;
+expr:
+	LPAREN exprOp = op exprLeft = expr exprRight = expr+ RPAREN	# parenExpr
+	| NUMBER													# numberExpr;
+op: PLUS | MINUS | STAR | SLASH;
+
+LPAREN: '(';
+RPAREN: ')';
 NUMBER: '-'? [0-9]+;
-OPERATOR: '+' | '-' | '*' | '/';
+PLUS: '+';
+MINUS: '-';
+STAR: '*';
+SLASH: '/';
 
 WS: [ \t\r\n]+ -> skip;
 

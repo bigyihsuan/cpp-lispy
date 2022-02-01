@@ -8,11 +8,17 @@ lantlr4 = -lantlr4-runtime
 parsing = src/parsing.cpp
 lispy_grammar = Lispy.g4
 
+grammar: src/$(lispy_grammar)
+	cd src;	$(antlr4) -Dlanguage=Cpp -visitor -o $(ANTLR_DIR) $(lispy_grammar); cd ..
 
-lispy: $(parsing) src/$(lispy_grammar)
-	cd src;	$(antlr4) -Dlanguage=Cpp -o $(ANTLR_DIR) $(lispy_grammar); cd ..
+lispy: $(parsing)
 	g++ -g -std=c++2a -Wall $(Iantlr4) -I src/antlr -o lispy \
 		$(parsing) src/antlr/*.cpp $(ledit) $(lantlr4)
+
+build: grammar lispy
+
+run: build
+	./lispy
 
 clean:
 	rm lispy
