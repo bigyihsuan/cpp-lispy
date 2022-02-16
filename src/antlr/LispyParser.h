@@ -13,7 +13,7 @@ class  LispyParser : public antlr4::Parser {
 public:
   enum {
     LPAREN = 1, RPAREN = 2, NUMBER = 3, PLUS = 4, MINUS = 5, STAR = 6, SLASH = 7, 
-    WS = 8
+    PERCENT = 8, WS = 9
   };
 
   enum {
@@ -105,6 +105,7 @@ public:
     antlr4::tree::TerminalNode *MINUS();
     antlr4::tree::TerminalNode *STAR();
     antlr4::tree::TerminalNode *SLASH();
+    antlr4::tree::TerminalNode *PERCENT();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;

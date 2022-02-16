@@ -13,7 +13,7 @@ class  LispyLexer : public antlr4::Lexer {
 public:
   enum {
     LPAREN = 1, RPAREN = 2, NUMBER = 3, PLUS = 4, MINUS = 5, STAR = 6, SLASH = 7, 
-    WS = 8
+    PERCENT = 8, WS = 9
   };
 
   explicit LispyLexer(antlr4::CharStream *input);

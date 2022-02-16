@@ -4,7 +4,7 @@ lispy: lispyOp = op lispyExpr = expr+;
 expr:
 	LPAREN exprOp = op exprLeft = expr exprRight = expr+ RPAREN	# parenExpr
 	| NUMBER													# numberExpr;
-op: PLUS | MINUS | STAR | SLASH;
+op: PLUS | MINUS | STAR | SLASH | PERCENT;
 
 LPAREN: '(';
 RPAREN: ')';
@@ -13,6 +13,7 @@ PLUS: '+';
 MINUS: '-';
 STAR: '*';
 SLASH: '/';
+PERCENT: '%';
 
 WS: [ \t\r\n]+ -> skip;
 

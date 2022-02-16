@@ -154,6 +154,8 @@ public:
             return lval_num(x.val * y.val);
         case LispyLexer::SLASH:
             return y.val == 0 ? lval_err(LvalErr::DIV_ZERO) : lval_num(x.val / y.val);
+        case LispyLexer::PERCENT:
+            return y.val == 0 ? lval_err(LvalErr::DIV_ZERO) : lval_num((int)x.val % (int)y.val);
         default:
             return lval_err(LvalErr::BAD_OP);
         }

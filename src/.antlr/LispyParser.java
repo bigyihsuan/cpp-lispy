@@ -16,7 +16,8 @@ public class LispyParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		LPAREN=1, RPAREN=2, NUMBER=3, PLUS=4, MINUS=5, STAR=6, SLASH=7, WS=8;
+		LPAREN=1, RPAREN=2, NUMBER=3, PLUS=4, MINUS=5, STAR=6, SLASH=7, PERCENT=8, 
+		WS=9;
 	public static final int
 		RULE_lispy = 0, RULE_expr = 1, RULE_op = 2;
 	private static String[] makeRuleNames() {
@@ -28,14 +29,14 @@ public class LispyParser extends Parser {
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, "'('", "')'", null, "'+'", "'-'", "'*'", "'/'"
+			null, "'('", "')'", null, "'+'", "'-'", "'*'", "'/'", "'%'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
 			null, "LPAREN", "RPAREN", "NUMBER", "PLUS", "MINUS", "STAR", "SLASH", 
-			"WS"
+			"PERCENT", "WS"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -240,6 +241,7 @@ public class LispyParser extends Parser {
 		public TerminalNode MINUS() { return getToken(LispyParser.MINUS, 0); }
 		public TerminalNode STAR() { return getToken(LispyParser.STAR, 0); }
 		public TerminalNode SLASH() { return getToken(LispyParser.SLASH, 0); }
+		public TerminalNode PERCENT() { return getToken(LispyParser.PERCENT, 0); }
 		public OpContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -255,7 +257,7 @@ public class LispyParser extends Parser {
 			{
 			setState(25);
 			_la = _input.LA(1);
-			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << PLUS) | (1L << MINUS) | (1L << STAR) | (1L << SLASH))) != 0)) ) {
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << PLUS) | (1L << MINUS) | (1L << STAR) | (1L << SLASH) | (1L << PERCENT))) != 0)) ) {
 			_errHandler.recoverInline(this);
 			}
 			else {
@@ -277,10 +279,10 @@ public class LispyParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\n\36\4\2\t\2\4\3"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\13\36\4\2\t\2\4\3"+
 		"\t\3\4\4\t\4\3\2\3\2\6\2\13\n\2\r\2\16\2\f\3\3\3\3\3\3\3\3\6\3\23\n\3"+
 		"\r\3\16\3\24\3\3\3\3\3\3\5\3\32\n\3\3\4\3\4\3\4\2\2\5\2\4\6\2\3\3\2\6"+
-		"\t\2\35\2\b\3\2\2\2\4\31\3\2\2\2\6\33\3\2\2\2\b\n\5\6\4\2\t\13\5\4\3\2"+
+		"\n\2\35\2\b\3\2\2\2\4\31\3\2\2\2\6\33\3\2\2\2\b\n\5\6\4\2\t\13\5\4\3\2"+
 		"\n\t\3\2\2\2\13\f\3\2\2\2\f\n\3\2\2\2\f\r\3\2\2\2\r\3\3\2\2\2\16\17\7"+
 		"\3\2\2\17\20\5\6\4\2\20\22\5\4\3\2\21\23\5\4\3\2\22\21\3\2\2\2\23\24\3"+
 		"\2\2\2\24\22\3\2\2\2\24\25\3\2\2\2\25\26\3\2\2\2\26\27\7\4\2\2\27\32\3"+
