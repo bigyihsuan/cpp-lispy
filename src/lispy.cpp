@@ -26,7 +26,7 @@ class Lval
 {
 public:
     enum LvalType type;
-    int val;
+    double val;
     enum LvalErr err;
 
     friend std::ostream &operator<<(std::ostream &os, const Lval &lval);
@@ -66,19 +66,19 @@ std::ostream &operator<<(std::ostream &os, const Lval &lval)
     return os;
 }
 
-Lval lval_num(int x)
+Lval lval_num(double val)
 {
     Lval v;
     v.type = LvalType::NUM;
-    v.val = x;
+    v.val = val;
     return v;
 }
 
-Lval lval_err(enum LvalErr x)
+Lval lval_err(enum LvalErr err)
 {
     Lval v;
     v.type = LvalType::ERR;
-    v.err = x;
+    v.err = err;
     return v;
 }
 
@@ -125,7 +125,7 @@ public:
     antlrcpp::Any visitNumberExpr(LispyParser::NumberExprContext *ctx) override
     {
         // std::cout << "visitNumberExpr " << ctx->NUMBER()->getText() << std::endl;
-        return lval_num(std::stoi(ctx->NUMBER()->getText()));
+        return lval_num(std::stof(ctx->NUMBER()->getText()));
     }
 
     // eval_op: given an x, a y, and an operator, return the result of the operation
