@@ -9,6 +9,79 @@
 #include "./antlr/LispyLexer.h"
 #include "./antlr/LispyParser.h"
 
+enum LvalType
+{
+    NUM,
+    ERR
+};
+
+enum LvalErr
+{
+    DIV_ZERO,
+    BAD_OP,
+    BAD_NUM
+};
+
+class Lval
+{
+public:
+    enum LvalType type;
+    int val;
+    enum LvalErr err;
+
+    friend std::ostream &operator<<(std::ostream &os, const Lval &lval);
+};
+
+std::ostream &operator<<(std::ostream &os, const Lval &lval)
+{
+    switch (lval.type)
+    {
+    case LvalType::NUM:
+    {
+        os << lval.val;
+        break;
+    }
+    case LvalType::ERR:
+    {
+        switch (lval.err)
+        {
+        case LvalErr::DIV_ZERO:
+        {
+            os << "Error: Division by zero";
+            break;
+        }
+        case LvalErr::BAD_OP:
+        {
+            os << "Error: Invalid operator";
+            break;
+        }
+        case LvalErr::BAD_NUM:
+        {
+            os << "Error: Invalid number";
+            break;
+        }
+        }
+    }
+    }
+    return os;
+}
+
+Lval lval_num(int x)
+{
+    Lval v;
+    v.type = LvalType::NUM;
+    v.val = x;
+    return v;
+}
+
+Lval lval_err(enum LvalErr x)
+{
+    Lval v;
+    v.type = LvalType::ERR;
+    v.err = x;
+    return v;
+}
+
 class EvalVisitor : LispyBaseVisitor
 {
 public:
@@ -21,12 +94,12 @@ public:
     {
         // std::cout << "visitLispy " << ctx->getText() << std::endl;
         auto op = ctx->lispyOp->getStart();
-        int left = visit(ctx->expr(0));
+        Lval left = visit(ctx->expr(0));
         // std::cout << "left " << left << std::endl;
 
-        for (int i = 1; i < ctx->expr().size(); i++)
+        for (auto i = 1; i < ctx->expr().size(); i++)
         {
-            int right = visit(ctx->expr(i));
+            Lval right = visit(ctx->expr(i));
             // std::cout << "left: " << left << " right: " << right << std::endl;
             left = eval_op(op, left, right);
         }
@@ -37,12 +110,12 @@ public:
     {
         // std::cout << "visitParenExpr " << ctx->getText() << std::endl;
         auto op = ctx->exprOp->getStart();
-        int left = visit(ctx->expr(0));
+        Lval left = visit(ctx->expr(0));
         // std::cout << "    left " << left << std::endl;
 
-        for (int i = 1; i < ctx->expr().size(); i++)
+        for (auto i = 1; i < ctx->expr().size(); i++)
         {
-            int right = visit(ctx->expr(i));
+            Lval right = visit(ctx->expr(i));
             // std::cout << "    left: " << left << " right: " << right << std::endl;
             left = eval_op(op, left, right);
         }
@@ -52,33 +125,38 @@ public:
     antlrcpp::Any visitNumberExpr(LispyParser::NumberExprContext *ctx) override
     {
         // std::cout << "visitNumberExpr " << ctx->NUMBER()->getText() << std::endl;
-        return std::stoi(ctx->NUMBER()->getText());
+        return lval_num(std::stoi(ctx->NUMBER()->getText()));
     }
 
     // eval_op: given an x, a y, and an operator, return the result of the operation
     // operators can be +, -, * /
-    int eval_op(antlr4::Token *op, int x, int y)
+    Lval eval_op(antlr4::Token *op, Lval x, Lval y)
     {
+        if (x.type == LvalType::ERR)
+        {
+            return x;
+        }
+        if (y.type == LvalType::ERR)
+        {
+            return y;
+        }
+
         auto type = op->getType();
         // std::cout << x << " "
         //   << op->getText() << " " << y << std::endl;
-        if (type == LispyParser::PLUS)
+        switch (type)
         {
-            return x + y;
+        case LispyLexer::PLUS:
+            return lval_num(x.val + y.val);
+        case LispyLexer::MINUS:
+            return lval_num(x.val - y.val);
+        case LispyLexer::STAR:
+            return lval_num(x.val * y.val);
+        case LispyLexer::SLASH:
+            return y.val == 0 ? lval_err(LvalErr::DIV_ZERO) : lval_num(x.val / y.val);
+        default:
+            return lval_err(LvalErr::BAD_OP);
         }
-        else if (type == LispyParser::MINUS)
-        {
-            return x - y;
-        }
-        else if (type == LispyParser::STAR)
-        {
-            return x * y;
-        }
-        else if (type == LispyParser::SLASH)
-        {
-            return x / y;
-        }
-        return 0;
     }
 };
 
@@ -114,7 +192,7 @@ int main()
         //   << std::endl;
 
         auto visitor = new EvalVisitor();
-        std::cout << "visited value = " << (int)visitor->visit(tree) << std::endl;
+        std::cout << (Lval)visitor->visit(tree) << std::endl;
     }
 
     return 0;

@@ -5,7 +5,7 @@ Iantlr4 = -I /usr/local/include/antlr4-runtime/
 ledit = -ledit
 lantlr4 = -lantlr4-runtime
 
-parsing = src/parsing.cpp
+parsing = src/lispy.cpp
 lispy_grammar = Lispy.g4
 
 grammar: src/$(lispy_grammar)
